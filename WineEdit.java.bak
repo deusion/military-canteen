@@ -1,0 +1,355 @@
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.sql.*;
+
+public class  WineEdit extends JFrame implements ActionListener
+{
+  
+   JButton bAdd,bEdit,bCancel,press,bDelete,addD,editSave,deleteD;
+  JLabel uIds, uID, uTitle, uPrice;
+  JTextField tuid,tId,tTitle,tprice;
+  
+   JPanel btnpanel;
+   JPanel panel;
+
+ Container cpane;
+   Statement st;
+   Connection con;
+   PreparedStatement ps;
+
+ WineEdit(int c)
+	{
+	  switch( c)
+		{
+		case 1:
+
+	    setTitle("Welcome");
+          setBounds(300, 200, 455, 250);
+        setResizable(false);
+
+
+
+        cpane = getContentPane();
+        cpane.setLayout(new FlowLayout());
+
+        panel = new JPanel(new GridLayout(25, 2, 25, 10));
+       
+  
+        btnpanel = new JPanel(new GridLayout(2,50,65,55));
+       bAdd=new JButton("Add");
+		 bAdd.setForeground(Color.BLUE);
+		  bAdd.setFont(new Font("Arial",Font.PLAIN,25));
+
+        bEdit=new JButton("Edit"); 
+           bEdit.setForeground(Color.BLUE);
+		    bEdit.setFont(new Font("Arial",Font.PLAIN,25));
+
+		bDelete=new JButton("Delete");
+       bDelete.setForeground(Color.BLUE);
+	   bDelete.setFont(new Font("Arial",Font.PLAIN,25));
+        
+		bCancel = new JButton ("Cancel");
+        bCancel.setForeground(Color.BLUE);
+		bCancel.setFont(new Font("Arial",Font.PLAIN,25));
+
+		
+     
+        btnpanel.add( bAdd);
+        btnpanel.add(bEdit);
+        btnpanel.add(bDelete);
+        btnpanel.add(bCancel);
+
+		 bAdd.addActionListener(this); 
+        bEdit.addActionListener(this);
+        bDelete.addActionListener(this);
+        bCancel.addActionListener(this);
+
+
+        cpane.add(panel);
+        cpane.add(btnpanel, BorderLayout.SOUTH);
+			
+			setVisible(true);
+		break;
+	
+		case 2:
+	
+		    setTitle("Addition of data...");
+        setBounds(275, 275, 400, 250);
+        setResizable(false);
+   
+        cpane = getContentPane();
+        cpane.setLayout(new FlowLayout());
+
+  
+        panel = new JPanel(new GridLayout(13, 5, 5, 5));
+
+        uID = new JLabel(" ID ");
+        uTitle = new JLabel(" Name  ");
+        uPrice = new JLabel(" Price ");
+
+        tId = new JTextField(15);
+        tTitle = new JTextField(15);
+         tprice = new JTextField(15);
+
+        panel.add(uID);
+        panel.add(tId);
+        panel.add(uTitle);
+        panel.add(tTitle);
+        panel.add(uPrice);
+        panel.add(tprice);
+
+        btnpanel = new JPanel(new GridLayout( 2,2,5,5));
+        addD = new JButton ("Save");
+        bCancel = new JButton ("Cancel");
+
+        addD.addActionListener(this);
+        bCancel.addActionListener(this);
+    
+        btnpanel.add(addD);
+        btnpanel.add(bCancel);
+
+        cpane.add(panel);
+        cpane.add(btnpanel, BorderLayout.EAST);
+		setVisible(true);
+        break;
+     case 3:
+        //Editing window
+
+        setTitle("Updation of data...");
+        setBounds(250, 250, 300, 300);
+        setResizable(false);
+
+        //cotainer
+
+        cpane = getContentPane();
+        cpane.setLayout(new FlowLayout());
+
+        //Components
+
+        panel = new JPanel(new GridLayout(7, 1, 120,8));
+        uIds = new JLabel(" ID ");
+        tuid = new JTextField(15);
+        uTitle = new JLabel(" Title ");
+        uPrice = new JLabel(" Price ");
+    
+           tTitle = new JTextField(15);
+         //  tTitle.setEditable(false);   
+			tprice = new JTextField(15);
+
+
+        panel.add(uIds);
+        panel.add(tuid);
+        panel.add(uTitle);
+        panel.add(tTitle);
+        panel.add(uPrice);
+        panel.add(tprice);
+
+        btnpanel = new JPanel(new GridLayout(2,2,10,10));
+        editSave = new JButton ("Save");
+        bCancel = new JButton ("Cancel");
+		press=new JButton("Press");
+
+        editSave.addActionListener(this);
+        bCancel.addActionListener(this);
+		 press.addActionListener(this);
+
+    	btnpanel.add(press);
+        btnpanel.add(editSave);
+        btnpanel.add(bCancel);
+	
+
+
+        cpane.add(panel);
+        cpane.add(btnpanel, BorderLayout.EAST);
+			setVisible(true);
+        break;
+  case 4:
+        //Deleting window
+
+        setTitle("Removal of data...");
+        setBounds(300, 300, 300, 125);
+        setResizable(false);
+
+        //cotainer
+
+        cpane = getContentPane();
+        cpane.setLayout(new FlowLayout());
+
+        //Components
+
+        panel = new JPanel(new GridLayout(2, 1, 5, 0));
+        uID = new JLabel("ID to be deleted: ");
+        tId = new JTextField(15);
+
+        panel.add(uID);
+        panel.add(tId);
+
+        btnpanel = new JPanel(new GridLayout(2, 1, 10, 5));
+        deleteD = new JButton ("Delete");
+        bCancel = new JButton ("Cancel");
+
+         
+
+        deleteD.addActionListener(this);
+        bCancel.addActionListener(this);
+        
+        btnpanel.add(deleteD);
+        btnpanel.add(bCancel);
+        
+        cpane.add(panel);
+        cpane.add(btnpanel, BorderLayout.EAST);
+			setVisible(true);
+        break;
+		}
+}
+public void actionPerformed(ActionEvent ae)
+	{
+	if(ae.getSource()==bAdd)
+		{  
+		    	 new WineEdit(2);
+			
+	      } else if (ae.getSource() == bEdit)
+       {
+        new WineEdit(3);
+	  
+    }
+    else if (ae.getSource() == bDelete)
+    {
+        new WineEdit(4);
+	}
+    else if (ae.getSource() == bCancel)
+    {
+	
+	setVisible(false);
+	
+	}
+	 else if(ae.getSource() == addD)
+    {
+     
+      AddData(tId.getText(), tTitle.getText(), tprice.getText());
+      tId.setText("");
+      tTitle.setText("");
+    
+      tprice.setText("");
+      setVisible(false);
+    }
+    else if(ae.getSource() == editSave)
+    {
+		System.out.println("new");
+      EditData(  tuid.getText(), tTitle.getText(),tprice.getText());
+     
+      tuid.setText("");
+      tTitle.setText("");
+   
+      tprice.setText("");
+      setVisible(false);
+    }
+    else if(ae.getSource() == deleteD)
+    {
+     
+      DeleteData(tId.getText());
+      tId.setText("");
+       setVisible(false); 
+    }else if(ae.getSource()==press)
+		{
+		
+	getData(  tuid.getText());
+	       }
+   
+       }
+	public static void main(String[] args) 
+	{
+	 WineEdit c=new WineEdit(1);
+	
+		}
+
+
+public  void AddData (String code, String title,  String price)
+  {
+    try
+    {
+		 String dsn = "mcm";
+
+      //load driver
+     Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+
+      //make connection
+      con = DriverManager.getConnection("jdbc:odbc:" + dsn);
+
+      //prepare statement
+      String qry = "Insert into RetailData values (?, ?, ?)";
+   
+       ps = con.prepareStatement(qry);
+	    ps.setString(1, code);
+      ps.setString(2, title.toUpperCase());
+     ps.setString(3,price);
+      ps.executeUpdate();
+	
+    }
+    catch(Exception e) {System.out.println( "jjjjjjjjjj\t" + e);  }
+  }
+
+public void getData(String g)
+	{
+              String a=g;
+			  System.out.println(a);
+	try{
+	
+           	              Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+						 Connection con=DriverManager.getConnection("jdbc:odbc:mcm");
+						 Statement st=con.createStatement();
+						 ResultSet rs=st.executeQuery("select * from RetailData");
+						 while(rs.next())
+					      {
+							 if(a.equals(rs.getString(1)))
+							  {
+								   tTitle.setText(rs.getString(2));
+								   tprice.setText(rs.getString(3));
+							    }
+							
+						  }
+	}catch(Exception e){ System.out.println(e);}
+        }
+public void EditData (String code, String title,  String price)
+  {
+	System.out.println("rfwe w"+code+title+price);
+	String a=code;
+    try
+    {
+  	              Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+		 Connection con=DriverManager.getConnection("jdbc:odbc:mcm");
+        
+     //prepare statement
+      String qry = "Update RetailData set   id = ?,dname = ?, rate = ? where id = ?";
+      PreparedStatement ps = con.prepareStatement(qry);
+
+      ps.setString(1, a);
+      ps.setString(2, title);
+      ps.setString(3, price);
+	   ps.setString(4, code);
+      ps.executeUpdate();
+    }
+    catch(Exception e) {System.out.println("hhh              "+e);  }
+  }
+
+  private void DeleteData (String cond)
+  {
+    try
+    {
+		       Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+		 Connection con=DriverManager.getConnection("jdbc:odbc:mcm");
+        
+      //prepare statement
+      String qry = "Delete from RetailData where id = ?";
+      PreparedStatement ps = con.prepareStatement(qry);
+
+      ps.setString(1, cond);
+
+      ps.executeUpdate();
+    }
+    catch(Exception e) {System.out.println(e);  }
+  }
+
+
+}

@@ -1,0 +1,356 @@
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
+import java.sql.*;
+
+public class WineBill extends JFrame implements ActionListener
+{
+	
+	JLabel l1,l18,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16,l17;
+    JButton b;
+    JTable tb;
+    JTextField t1,t2,tp,tctr,tbill,tid, tname,ttype,trank,tround;
+	
+	 String aa,bb,cc,dd,ee,no;
+	 String c1[]={" Index "," Name "," Quantity "," Rate "," Total "};
+	String d1[][]=new String[50][5];
+	static String cno,type;
+	int qun,i=0,tt;
+	Double total=0.0;
+	
+   WineBill(String a,String bs)
+	{			
+		 super("Wine Bill ");
+		  setLayout(null);
+		 setLocation(200,10);
+        setSize(590,720);
+	tb=new JTable(d1,c1);	
+	    tb.setEnabled(false);
+	cno=a;
+	type=bs;
+	System.out.println("Bill start ..................."+cno+"\t"+type);
+	   int v=ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
+		int h=ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS;
+		
+	     JScrollPane p=new JScrollPane(tb,v,h);
+         add(p);
+    	p.setBounds(0,185,580,270);
+
+		  l1=new JLabel(" WINE BILL ");
+		  l1.setFont(new Font("Arial",0,30));
+		  l1.setForeground(Color.BLUE);
+
+		  l2=new JLabel(" 4114 -Southern Command Canteen , Pune ");
+		  l2.setFont(new Font("Arial",Font.ITALIC,20));
+		  l2.setForeground(Color.BLUE);
+
+		  l3=new JLabel(" SalesPerson  :-");
+          l3.setFont(new Font("Arial",Font.BOLD,13));
+	  	  l3.setForeground(Color.BLUE);
+
+
+		  l4=new JLabel(" CTR  No         :-");
+          l4.setFont(new Font("Arial",Font.BOLD,13));
+   	      l4.setForeground(Color.BLUE);
+	  
+	     
+		  
+		  l5=new JLabel(" ---------------------------------------------------------------------------------------------------------------------");
+          l5.setFont(new Font("Arial",Font.ITALIC,20));
+   	      l5.setForeground(Color.BLUE);
+
+          l6=new JLabel(" Bill No  :-");
+          l6.setFont(new Font("Arial",Font.BOLD,13));
+	  	  l6.setForeground(Color.BLUE);
+  
+          l7=new JLabel(" Rank  :-");
+          l7.setFont(new Font("Arial",Font.BOLD,13));
+	  	  l7.setForeground(Color.BLUE);
+	  	 
+          l8=new JLabel(" ID   :-");
+          l8.setFont(new Font("Arial",Font.BOLD,13));
+	  	  l8.setForeground(Color.BLUE);
+		 
+		  l9=new JLabel(" Name  :-");
+          l9.setFont(new Font("Arial",Font.BOLD,13));
+	  	  l9.setForeground(Color.BLUE);
+
+	      l10=new JLabel(" ---------------------------------------------------------------------------------------------------------------------");
+          l10.setFont(new Font("Arial",Font.ITALIC,20));
+   	      l10.setForeground(Color.BLUE);
+
+	      l11=new JLabel(" Type  :-");
+          l11.setFont(new Font("Arial",Font.BOLD,13));
+	  	  l11.setForeground(Color.BLUE);
+ 
+      	  l12=new JLabel("   ");
+          l12.setFont(new Font("Arial",Font.BOLD,13));
+	  	  l12.setForeground(Color.BLUE);
+	   
+		  l13=new JLabel("   :-");
+          l13.setFont(new Font("Arial",Font.BOLD,13));
+	  	  l13.setForeground(Color.BLUE);
+
+          l14=new JLabel(" Total ");
+          l14.setFont(new Font("Arial",Font.ITALIC,20));
+   	      l14.setForeground(Color.BLUE);
+
+	
+          l15=new JLabel(" Goods Sold  Will  Not  Be  Exchanged /  Replaced .");
+          l15.setFont(new Font("Arial",Font.BOLD,13));
+	  	  l15.setForeground(Color.BLUE);
+
+          l16=new JLabel(" Thank  You -  Visit    Again .");
+          l16.setFont(new Font("Arial",Font.BOLD,13));
+	  	  l16.setForeground(Color.BLUE);
+
+		  l17=new JLabel(" Total qty .");
+          l17.setFont(new Font("Arial",Font.BOLD,13));
+	  	  l17.setForeground(Color.BLUE);
+             
+		  l18=new JLabel(" Round Off :  -- ");
+          l18.setFont(new Font("Arial",Font.BOLD,13));
+	  	  l18.setForeground(Color.BLUE);
+
+			 t1=new JTextField(25);
+			t1.setFont(new Font("Arial",Font.BOLD,13));
+	  	    t1.setForeground(Color.RED);
+		     t1.setEditable(false);
+		
+			 t2=new JTextField(25);
+			t2.setFont(new Font("Arial",Font.BOLD,13));
+	  	    t2.setForeground(Color.RED);
+			 t2.setEditable(false);
+           
+			 tp=new JTextField(25);
+		      tp.setFont(new Font("Arial",Font.BOLD,13));
+	  	    tp.setForeground(Color.BLACK);
+				 tp.setEditable(false);
+		
+		   tctr=new JTextField(25);
+			tctr.setFont(new Font("Arial",Font.BOLD,13));
+	  	    tctr.setForeground(Color.BLACK);
+			 tctr.setEditable(false);
+		
+		 tbill=new JTextField(25);
+		 tbill.setFont(new Font("Arial",Font.BOLD,13));
+	  	    tbill.setForeground(Color.BLACK);
+		 tbill.setEditable(false);
+		
+		  tid=new JTextField(25);
+	  	 tid.setFont(new Font("Arial",Font.BOLD,13));
+	  	    tid.setForeground(Color.RED);
+			 tid.setEditable(false);
+		
+		  tround=new JTextField(25);
+		tround.setFont(new Font("Arial",Font.BOLD,13));
+	  	    tround.setForeground(Color.BLACK);
+			 tround.setEditable(false);
+		
+		 tname=new JTextField(25);
+		tname.setFont(new Font("Arial",Font.BOLD,13));
+	  	    tname.setForeground(Color.BLACK);
+			 tname.setEditable(false);
+		
+		 ttype=new JTextField(25);
+		ttype.setFont(new Font("Arial",Font.BOLD,13));
+	     ttype.setForeground(Color.BLACK);
+		 ttype.setEditable(false);
+		
+		 trank=new JTextField(25);
+		 trank.setFont(new Font("Arial",Font.BOLD,13));
+	  	    trank.setForeground(Color.BLACK);
+			 trank.setEditable(false);
+		
+			 b=new JButton("print ");
+         
+		 l1.setBounds(130,10,500,30);
+		 l2.setBounds(70,40,500,30);
+         l3.setBounds(20,70,100,30);
+         tp.setBounds(125,70,100,20);
+      	 l4.setBounds(20,90,500,30);
+         tctr.setBounds(125,93,100,20);
+      	  l5.setBounds(0,100,680,30);
+         l6.setBounds(240,85,500,30);
+		 tbill.setBounds(300,85,100,25);
+		 l7.setBounds(340,150,500,30);
+		 	trank.setBounds(400,150,100,25);
+		 l8.setBounds(10,120,500,30);
+		tid.setBounds(80,120,230,25);
+		  l9.setBounds(10,150,500,30);     
+		  tname.setBounds(80,150,260,25);     
+		 
+		 l10.setBounds(0,165,980,30); 
+		 l11.setBounds(340,120,500,30);
+          ttype.setBounds(400,120,100,25);
+		 l12.setBounds(5,495,500,30);
+		 l13.setBounds(5,515,500,30);
+		 l14.setBounds(395,460,500,30);
+		 l15.setBounds(65,540,500,30);
+		 l16.setBounds(145,560,500,30);
+		  b.setBounds(450,635,100,35);
+		  t1.setBounds(460,460,100,35);
+		  t2.setBounds(230,460,100,35);
+		 l17.setBounds(150,460,500,30);
+		 l18.setBounds(365,500,500,30);
+		 tround.setBounds(465,500,100,30);
+	
+	     add(l18);
+	     add(l17);
+		 add(t1);
+		 add(t2);
+		 add(b);
+		 add(l14);
+		 add(l1);
+		 add(l2);
+		 add(l3);
+         add(l4);
+         add(l5);
+         add(l6);
+         add(l7);
+         add(l8);
+		  add(l9);
+         add(l10);
+         add(l11);
+		  add(l12);
+		   add(l13);
+     add(tp);
+	 add(tctr);
+	 add(tbill);
+	 add(tid);
+	 add(tname);
+	 add(ttype);
+	 add(trank);
+   add(tround);
+           add(l15);
+		   add(l16);    
+		   addData();
+		   b.addActionListener(this);
+
+	}
+
+		public static void main(String[] args) 
+	{
+		WineBill t=new WineBill(cno,type);
+	
+      t.setVisible(true);
+
+
+	}
+public void actionPerformed(ActionEvent ae )
+	{
+	if(ae.getSource()==b)
+		{
+		    wineInfo w=new wineInfo("Wine Use");
+			setVisible(false);
+			w.setVisible(true);
+	      }
+      }
+		public void addData()
+	{
+
+  try{
+		Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+         Connection con=DriverManager.getConnection("Jdbc:Odbc:mcm");
+		 Statement st=con.createStatement();
+		 ResultSet rs=st.executeQuery("Select * from WineData");
+		
+		int j=Integer.parseInt(cno);
+		 while(rs.next())
+		{
+			 try{
+				Thread.sleep(1000);
+			}catch(Exception e){}
+
+            if(j<Integer.parseInt(rs.getString(1)))
+		{
+				no=rs.getString(2);
+				d1[i][0]=rs.getString(3);
+				d1[i][1]=rs.getString(4);
+				d1[i][2]=rs.getString(5);
+			//	qun=qun+Integer.parseInt(d1[i][2]);
+				d1[i][3]=rs.getString(6);
+				d1[i][4]=rs.getString(7);
+				i++;
+				j++;
+				System.out.println("pravin...................................");
+			}
+
+				  }
+
+
+	   }catch(Exception e)
+		{ System.out.println("simple " +e);}
+
+  
+	
+		System.out.println("out");
+for(int i=0;i<50;i++)
+{
+	if(d1[i][2]==null||d1[i][4]==null)
+	break;
+	
+	qun=qun+Integer.parseInt(d1[i][2]);
+	total=total+Double.parseDouble(d1[i][4]);
+}
+  
+		System.out.println("out");
+
+	Double   a= Double.parseDouble(no);
+		  	 try{
+					    
+						 Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+						 Connection con=DriverManager.getConnection("jdbc:odbc:mcm");
+						 Statement st=con.createStatement();
+						 ResultSet rs=st.executeQuery("select * from PersonInfo");
+			
+						 while(rs.next())
+					      {
+							 String  gs=rs.getString(2);
+							
+							  if(a==Double.parseDouble(gs))
+							 {
+								  aa= rs.getString(3);  
+								  ee=rs.getString(7);  
+					      }
+						  }
+ 		           }catch(Exception e){System.out.println("f"+e);}
+		
+				   	 try{
+					    
+						 Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+						 Connection con=DriverManager.getConnection("jdbc:odbc:mcm");
+						 Statement st=con.createStatement();
+						 ResultSet rs=st.executeQuery("select * from AddPropertyTable");
+			
+						 while(rs.next())
+					      {
+							 
+								bb= rs.getString(1);  
+								  cc=rs.getString(2);  
+					    
+						  }
+ 		           }catch(Exception e){System.out.println("k"+e);}
+           
+			
+			    tt=total.intValue();
+		
+			double s=total-tt;
+			  t1.setText("  "+Integer.toString(tt)); 
+               t2.setText("   "+Integer.toString(qun));
+                  tid.setText("  "+no);
+		           tname.setText("  "+aa);
+              trank.setText(" "+ee);
+                
+              ttype.setText("    "+type);
+			    tp.setText("  "+bb);
+			    tctr.setText("    "+cc);
+                     tbill.setText("  "+cno);
+           tround.setText(Double.toString(s));
+System.out.println("total  "+total+  "                 "+s);
+	
+	 }
+
+	
+}	
+
